@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "zHt6hvgF5DDdqGsr0KyfbQ5XB2D51m/CIPE6OCErFss=",
+  "Source": "PresenceLoggingService",
+  "BasePath": "_content/PresenceLoggingService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}

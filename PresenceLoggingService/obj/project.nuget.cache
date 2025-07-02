@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "9eMdn2r19cU=",
+  "success": true,
+  "projectFilePath": "/home/sheroz/Projects/PresenceLoggingService/PresenceLoggingService/PresenceLoggingService.csproj",
+  "expectedPackageFiles": [
+    "/home/sheroz/.nuget/packages/microsoft.aspnetcore.openapi/9.0.4/microsoft.aspnetcore.openapi.9.0.4.nupkg.sha512",
+    "/home/sheroz/.nuget/packages/microsoft.openapi/1.6.17/microsoft.openapi.1.6.17.nupkg.sha512",
+    "/home/sheroz/.nuget/packages/microsoft.aspnetcore.app.ref/9.0.4/microsoft.aspnetcore.app.ref.9.0.4.nupkg.sha512"
+  ],
+  "logs": []
+}
