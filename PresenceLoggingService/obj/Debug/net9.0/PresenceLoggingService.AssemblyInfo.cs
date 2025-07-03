@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PresenceLoggingService")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+badd1b4e687550cd830b02154f02dfc889848522")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+92ce587ca39903c31cf36dca710a59d6a0316d05")]
 [assembly: System.Reflection.AssemblyProductAttribute("PresenceLoggingService")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PresenceLoggingService")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

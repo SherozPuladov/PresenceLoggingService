@@ -15,10 +15,9 @@ public class Shift
     [Required]
     public TimeOnly StartShift { get; set; }
     
-    [Required]
-    public TimeOnly EndShift { get; set; }
+    public TimeOnly? EndShift { get; set; }
     
-    [Required]
+    
     public TimeSpan WorkedHours { get; set; }
     
     [ForeignKey("Employee")]

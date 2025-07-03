@@ -4,20 +4,13 @@ using PresenceLoggingService.Models;
 
 namespace PresenceLoggingService.Data;
 
-public class HrDepartmentRepo : IHrDepartmentRepo
+public class HrDepartmentRepo(AppDbContext context) : IHrDepartmentRepo
 {
-    private readonly AppDbContext _context;
-    
-    public HrDepartmentRepo(AppDbContext context)
-    {
-        _context = context;
-    }
-    
     public async Task<OperationResult<Employee>> GetEmployeeAsync(int id)
     {
         try
         {
-            var e = await _context.Employees.FindAsync(id);
+            var e = await context.Employees.FindAsync(id);
 
             return e != null
                 ? OperationResult<Employee>.Ok(e)
@@ -34,8 +27,8 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            await _context.Employees.AddAsync(employee);
-            await _context.SaveChangesAsync();
+            await context.Employees.AddAsync(employee);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -48,13 +41,13 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var exists = await _context.Employees.AnyAsync(e => e.EmployeeId == employee.EmployeeId);
+            var exists = await context.Employees.AnyAsync(e => e.EmployeeId == employee.EmployeeId);
             if (!exists)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Employee), employee.EmployeeId));
             
-            _context.Employees.Update(employee);
-            await _context.SaveChangesAsync();
+            context.Employees.Update(employee);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -67,14 +60,14 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var employee = await _context.Employees.FindAsync(id);
+            var employee = await context.Employees.FindAsync(id);
             
             if (employee == null)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Employee), id));
             
-            _context.Employees.Remove(employee);
-            await _context.SaveChangesAsync();
+            context.Employees.Remove(employee);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -87,7 +80,7 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            return OperationResult<IEnumerable<Employee>>.Ok(await _context.Employees.ToListAsync());
+            return OperationResult<IEnumerable<Employee>>.Ok(await context.Employees.ToListAsync());
         }
         catch (Exception exception)
         {
@@ -99,12 +92,12 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var roleExists = await _context.Roles.AnyAsync(r => r.RoleId == roleId);
+            var roleExists = await context.Roles.AnyAsync(r => r.RoleId == roleId);
             if (!roleExists)
                 return OperationResult<IEnumerable<Employee>>.Error(
                     new EntityNotFoundException(nameof(Role), roleId));
             
-            return OperationResult<IEnumerable<Employee>>.Ok(await _context.Employees
+            return OperationResult<IEnumerable<Employee>>.Ok(await context.Employees
                 .Where(e => e.RoleId == roleId)
                 .ToListAsync());
         }
@@ -118,7 +111,7 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var r = await _context.Roles.FindAsync(id);
+            var r = await context.Roles.FindAsync(id);
             return r != null
                 ? OperationResult<Role>.Ok(r)
                 : OperationResult<Role>.Error(
@@ -135,8 +128,8 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            await _context.Roles.AddAsync(role);
-            await _context.SaveChangesAsync();
+            await context.Roles.AddAsync(role);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -149,13 +142,13 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var exists = await _context.Roles.AnyAsync(r => r.RoleId == role.RoleId);
+            var exists = await context.Roles.AnyAsync(r => r.RoleId == role.RoleId);
             if (!exists)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Role), role.RoleId));
             
-            _context.Roles.Update(role);
-            await _context.SaveChangesAsync();
+            context.Roles.Update(role);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -168,14 +161,14 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            var role = await _context.Roles.FindAsync(id);
+            var role = await context.Roles.FindAsync(id);
             
             if (role == null)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Role), id));
             
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
+            context.Roles.Remove(role);
+            await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -188,7 +181,7 @@ public class HrDepartmentRepo : IHrDepartmentRepo
     {
         try
         {
-            return OperationResult<IEnumerable<Role>>.Ok(await _context.Roles.ToListAsync());
+            return OperationResult<IEnumerable<Role>>.Ok(await context.Roles.ToListAsync());
         }
         catch (Exception exception)
         {
