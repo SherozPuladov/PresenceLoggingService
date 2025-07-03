@@ -11,12 +11,14 @@ public class Employee
     
     [Required]
     [StringLength(50)]
-    public string FirstName { get; set; }
-    [Required]
-    [StringLength(50)]
-    public string LastName { get; set; }
-    [StringLength(50)]
-    public string? ThirdName { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+
+    [Required] 
+    [StringLength(50)] 
+    public string LastName { get; set; } = string.Empty;
+
+    [StringLength(50)] 
+    public string? ThirdName { get; set; } = string.Empty;
     
     [ForeignKey("Role")]
     public int RoleId { get; set; }
