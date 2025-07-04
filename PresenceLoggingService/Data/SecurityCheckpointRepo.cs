@@ -11,15 +11,18 @@ public class SecurityCheckpointRepo(AppDbContext context) : ISecurityCheckpointR
         try
         {
             var employee = await context.Employees
-                .Include(e => e.LastShift)
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
             if (employee == null)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Employee), employeeId));
             
-            if (employee.LastShift?.EndShift == null)
-                return OperationResult<bool>.Error(
-                    new ShiftNotEndedException(employeeId));
+            if (employee.LastShiftId.HasValue)
+            {
+                var lastShift = await context.Shifts.FindAsync(employee.LastShiftId);
+                if (lastShift?.EndShift == null)
+                    return OperationResult<bool>.Error(
+                        new ShiftNotEndedException(employeeId));
+            }
 
             var shift = new Shift()
             {
@@ -29,9 +32,12 @@ public class SecurityCheckpointRepo(AppDbContext context) : ISecurityCheckpointR
                 ShiftDate = shiftDate
             };
             
-            context.Shifts.Add(shift);
-            employee.LastShift = shift;
+            await context.Shifts.AddAsync(shift);
             await context.SaveChangesAsync();
+            
+            employee.LastShiftId = shift.ShiftId;
+            await context.SaveChangesAsync();
+            
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)
@@ -45,20 +51,28 @@ public class SecurityCheckpointRepo(AppDbContext context) : ISecurityCheckpointR
         try
         {
             var employee = await context.Employees
-                .Include(e => e.LastShift)
                 .FirstOrDefaultAsync(e => e.EmployeeId == employeeId);
 
             if (employee == null)
                 return OperationResult<bool>.Error(
                     new EntityNotFoundException(nameof(Employee), employeeId));
 
-            if (employee.LastShift?.ShiftDate != shiftDate)
+            if (!employee.LastShiftId.HasValue)
                 return OperationResult<bool>.Error(
                     new ShiftNotStartedException(employeeId));
-
-            employee.LastShift.EndShift = endShift;
-            employee.LastShift.WorkedHours = endShift - employee.LastShift.StartShift;
+            
+            var lastShift = await context.Shifts.FindAsync(employee.LastShiftId);
+            
+            if (lastShift?.ShiftDate != shiftDate)
+                return OperationResult<bool>.Error(
+                    new ShiftNotStartedException(employeeId));
+            
+            
+            
+            lastShift.EndShift = endShift;
+            lastShift.WorkedHours = endShift - lastShift.StartShift;
             await context.SaveChangesAsync();
+            
             return OperationResult<bool>.Ok(true);
         }
         catch (Exception exception)

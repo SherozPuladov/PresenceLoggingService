@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "S80mf2gvEWA=",
+  "dgSpecHash": "f+CMuM9mzAo=",
   "success": true,
   "projectFilePath": "/home/sheroz/Projects/PresenceLoggingService/PresenceLoggingService/PresenceLoggingService.csproj",
   "expectedPackageFiles": [
@@ -26,6 +26,7 @@
     "/home/sheroz/.nuget/packages/microsoft.entityframeworkcore.relational/9.0.6/microsoft.entityframeworkcore.relational.9.0.6.nupkg.sha512",
     "/home/sheroz/.nuget/packages/microsoft.entityframeworkcore.sqlite/9.0.6/microsoft.entityframeworkcore.sqlite.9.0.6.nupkg.sha512",
     "/home/sheroz/.nuget/packages/microsoft.entityframeworkcore.sqlite.core/9.0.6/microsoft.entityframeworkcore.sqlite.core.9.0.6.nupkg.sha512",
+    "/home/sheroz/.nuget/packages/microsoft.entityframeworkcore.tools/9.0.6/microsoft.entityframeworkcore.tools.9.0.6.nupkg.sha512",
     "/home/sheroz/.nuget/packages/microsoft.extensions.apidescription.server/8.0.0/microsoft.extensions.apidescription.server.8.0.0.nupkg.sha512",
     "/home/sheroz/.nuget/packages/microsoft.extensions.caching.abstractions/9.0.6/microsoft.extensions.caching.abstractions.9.0.6.nupkg.sha512",
     "/home/sheroz/.nuget/packages/microsoft.extensions.caching.memory/9.0.6/microsoft.extensions.caching.memory.9.0.6.nupkg.sha512",

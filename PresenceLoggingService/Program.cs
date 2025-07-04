@@ -3,7 +3,7 @@ using PresenceLoggingService.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+
 
 builder.Services.AddControllers();
 
@@ -13,9 +13,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(opt =>
     opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddScoped<IHrDepartmentRepo, HrDepartmentRepo>();
+builder.Services.AddScoped<ISecurityCheckpointRepo, SecurityCheckpointRepo>();
+
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -24,9 +29,10 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("swagger/v1/swagger.json", "Presence Logging Service V1");
         c.RoutePrefix = string.Empty;
     });
+    app.UseDeveloperExceptionPage();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

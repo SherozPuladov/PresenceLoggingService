@@ -18,7 +18,7 @@ public class Employee
     public string LastName { get; set; } = string.Empty;
 
     [StringLength(50)] 
-    public string? ThirdName { get; set; } = string.Empty;
+    public string? ThirdName { get; set; }
     
     [ForeignKey("Role")]
     public int RoleId { get; set; }
@@ -26,7 +26,5 @@ public class Employee
 
     public List<Shift> Shifts { get; set; } = new();
     
-    [ForeignKey("LastShift")]
-    public int LastShiftId { get; set; }
-    public Shift LastShift { get; set; }
+    public int? LastShiftId { get; set; }
 }

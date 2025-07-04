@@ -29,10 +29,10 @@ public class AppDbContext : DbContext
             .WithOne(s => s.Employee)
             .HasForeignKey(s => s.EmployeeId);
 
-        modelBuilder.Entity<Employee>()
+        /*modelBuilder.Entity<Employee>()
             .HasOne(e => e.LastShift)
             .WithOne(s => s.Employee)
-            .HasForeignKey<Employee>(e => e.LastShiftId);
+            .HasForeignKey<Employee>(e => e.LastShiftId);*/
 
         modelBuilder.Entity<Shift>()
             .HasOne(s => s.Employee)
