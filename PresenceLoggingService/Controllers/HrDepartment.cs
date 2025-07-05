@@ -1,6 +1,7 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using PresenceLoggingService.Data;
+using PresenceLoggingService.Dtos.Employee;
 using PresenceLoggingService.Dtos.Role;
 using PresenceLoggingService.Models;
 
@@ -68,5 +69,67 @@ public class HrDepartment(IHrDepartmentRepo repository, IMapper mapper) : Contro
         return result.Success
             ? NoContent()
             : BadRequest(result.Exception?.Message);
+    }
+    
+    [HttpGet("employee")]
+    public async Task<ActionResult<IEnumerable<EmployeeReadDto>>> GetAllEmployees()
+    {
+        var result = await repository.GetAllEmployeesAsync();
+        return result.Success
+            ? Ok(mapper.Map<IEnumerable<EmployeeReadDto>>(result.Data))
+            : BadRequest(result.Exception?.Message);
+    }
+    
+    [HttpGet("employee/{id:int}")]
+    public async Task<ActionResult<EmployeeReadDto>> GetEmployee(int id)
+    {
+        var result = await repository.GetEmployeeAsync(id);
+        return result.Success
+            ? Ok(mapper.Map<EmployeeReadDto>(result.Data))
+            : BadRequest(result.Exception?.Message);
+    }
+    
+    [HttpPost("employee")]
+    public async Task<ActionResult<Employee>> CreateEmployee(EmployeeCreateDto employeeDto)
+    {
+        var employee = mapper.Map<Employee>(employeeDto);
+        var result = await repository.CreateEmployeeAsync(employee);
+        
+        if (!result.Success)
+            return BadRequest(result.Exception?.Message);
+        
+        var readEmployee = await repository.GetEmployeeAsync(employee.EmployeeId);
+        return readEmployee.Success
+            ? CreatedAtAction(nameof(GetEmployee), new { id = readEmployee.Data.EmployeeId }, readEmployee.Data)
+            : BadRequest(readEmployee.Exception?.Message);
+    }
+    
+    [HttpPut("employee")]
+    public async Task<ActionResult<EmployeeReadDto>> UpdateEmployee(EmployeeUpdateDto employeeDto)
+    {
+        var employee = mapper.Map<Employee>(employeeDto);
+        var result = await repository.UpdateEmployeeAsync(employee);
+        
+        return result.Success
+            ? Ok(mapper.Map<EmployeeReadDto>(result.Data))    
+            : BadRequest(result.Exception?.Message);
+    }
+    
+    [HttpDelete("employee/{id:int}")]
+    public async Task<ActionResult<bool>> DeleteEmployee(int id)
+    {
+        var result = await repository.DeleteEmployeeAsync(id);
+        return result.Success
+            ? NoContent()
+            : BadRequest(result.Exception?.Message);   
+    }
+
+    [HttpGet("employee/get-employees-by-role/{roleId:int}")]
+    public async Task<ActionResult<IEnumerable<EmployeeReadDto>>> GetEmployeesByRole(int roleId)
+    {
+        var result = await repository.GetEmployeesByRoleAsync(roleId);
+        return result.Success
+            ? Ok(mapper.Map<IEnumerable<EmployeeReadDto>>(result.Data))
+            : BadRequest(result.Exception?.Message);   
     }
 }

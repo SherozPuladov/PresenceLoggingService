@@ -12,6 +12,7 @@ public class HrDepartmentProfile : Profile
         CreateMap<Employee, EmployeeReadDto>();
         CreateMap<EmployeeCreateDto, Employee>();
         CreateMap<EmployeeUpdateDto, Employee>();
+        CreateMap<EmployeeUpdateDto, EmployeeReadDto>();
         
         CreateMap<Role, RoleReadDto>();
         CreateMap<RoleCreateDto, Role>();

@@ -27,6 +27,10 @@ public class HrDepartmentRepo(AppDbContext context) : IHrDepartmentRepo
     {
         try
         {
+            var roleExists = await context.Roles.FirstOrDefaultAsync(r => r.RoleId == employee.RoleId);
+            if (roleExists == null)
+                return OperationResult<bool>.Error(new Exception("Role does not exist"));
+            
             await context.Employees.AddAsync(employee);
             await context.SaveChangesAsync();
             return OperationResult<bool>.Ok(true);
