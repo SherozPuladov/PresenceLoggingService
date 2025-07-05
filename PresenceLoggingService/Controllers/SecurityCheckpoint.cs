@@ -1,20 +1,35 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using PresenceLoggingService.Data;
+using PresenceLoggingService.Dtos.Shift;
 
 namespace PresenceLoggingService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class SecurityCheckpoint : Controller
+public class SecurityCheckpoint(ISecurityCheckpointRepo repository, IMapper mapper) : Controller
 {
-    [HttpPost("start-shift/{employee-id:int}")]
-    public ActionResult<string> StartShift(int employeeId)
+    [HttpPost("start-shift/{employeeId:int}")]
+    public async Task<ActionResult> StartShift(
+        int employeeId,
+        [FromBody] StartShiftRequest startShiftRequest)
     {
-        throw new NotImplementedException();
+        var result = await repository.StartShiftAsync(employeeId, startShiftRequest.StartShift, startShiftRequest.ShiftDate);
+        
+        return result.Success
+            ? Ok()
+            : BadRequest(result.Exception?.Message);
     }
 
-    [HttpPost("end-shift/{employee-id:int}/{time:datetime=now}/{date:datetime=now}")]
-    public ActionResult<string> EndShift(int employeeId, TimeOnly time, DateOnly date)
+    [HttpPost("end-shift/{employeeId:int}")]
+    public async Task<ActionResult> EndShift(
+        int employeeId, 
+        [FromBody] EndShiftRequest endShiftRequest)
     {
-        throw new NotImplementedException();
+        var result = await repository.EndShiftAsync(employeeId, endShiftRequest.EndShift, endShiftRequest.ShiftDate);
+        
+        return result.Success
+            ? Ok()
+            : BadRequest(result.Exception?.Message);   
     }
 }
